@@ -1,0 +1,203 @@
+/* One motion system, with distinct jobs for images, text, feedback and state. */
+:root{--motion-feedback:280ms;--motion-photo:850ms;--motion-ease:cubic-bezier(.16,1,.3,1)}
+.header{--header-fill:0;background:linear-gradient(180deg,rgba(9,9,9,.68),rgba(9,9,9,.56));border-bottom-color:rgb(68 65 59 / var(--header-fill))}
+.header::before,.header.is-scrolled::before{background:#151515;opacity:var(--header-fill);transition:none}
+.header:has(.menu-toggle[aria-expanded=true])::before{opacity:1}
+
+/* Square photograph; a generous opaque text plane, with no animation of its ground. */
+.showroom.overlap-feature .showroom-visual{grid-column:1/8;aspect-ratio:1;height:auto;width:100%;max-width:720px;max-height:none;justify-self:start}
+.showroom.overlap-feature .showroom-intro{grid-column:6/13;padding:clamp(40px,4vw,64px);margin:0}
+.showroom.overlap-feature .showroom-intro h2{font-size:clamp(30px,2.6vw,40px)}
+.showroom.overlap-feature .showroom-intro>p{max-width:48ch;margin:26px 0}
+.showroom.overlap-feature .showroom-location{margin-bottom:28px;gap:9px}
+.showroom.overlap-feature .showroom-compact-actions{gap:18px 26px}
+
+/* Text left, one circular action right, within the same overlapping plane. */
+.project-cta.overlap-feature .project-cta-copy{display:flex;align-items:center;gap:36px;grid-column:1/8;padding:48px 52px 48px 0}
+.kit-copy-text{flex:1;min-width:0}
+.project-cta.overlap-feature h2{font-size:clamp(30px,2.75vw,42px)}
+.project-cta.overlap-feature .cta-description{max-width:44ch;margin-bottom:0}
+/* taste-skill-ignore outlined-box: the user explicitly requested the original outlined circular arrow. */
+.kit-round-button{display:grid;place-items:center;width:82px;height:82px;min-height:82px;flex:0 0 82px;border:1px solid var(--accent);border-radius:50%;background:transparent;color:var(--accent);padding:0}
+.kit-round-button .ui-icon{width:31px;height:31px;stroke-width:1.25}
+
+/* The approved third proposal, now part of the homepage. */
+.editorial-journal{grid-template-columns:1.35fr 1fr 1fr;align-items:start;gap:28px}
+.journal .editorial-journal h3{font-size:clamp(22px,2vw,30px);line-height:1.2}
+.journal .editorial-journal>a:first-child h3{font-size:clamp(28px,2.9vw,42px)}
+.editorial-journal p{font-size:16px;font-weight:200;line-height:1.45}
+.editorial-journal .journal-arrow{font-size:15px}
+.editorial-journal .journal-preview{aspect-ratio:1}
+.editorial-journal strong{font-weight:700}
+
+/* Specific feedback by role; never put a white rectangle behind quiet tabs/icons. */
+a{transition:color var(--motion-feedback) ease,border-color var(--motion-feedback) ease,opacity var(--motion-feedback) ease}
+.button,.round-button{transition:background-color var(--motion-feedback) ease,color var(--motion-feedback) ease,border-color var(--motion-feedback) ease,transform 160ms var(--motion-ease)}
+.button .ui-icon,.round-button .ui-icon,.text-link .ui-icon,.footer-nav .ui-icon,.footer-bottom .ui-icon,.more-categories .ui-icon,.recommendation-model .ui-icon,.journal-arrow .ui-icon,.category .ui-icon,.project-open .ui-icon{transition:transform 340ms var(--motion-ease)}
+.category img,.project img,.showroom-visual img,.journal-preview img,.model-image img{transition:transform var(--motion-photo) var(--motion-ease)}
+.category h3,.project-caption h3,.project-open,.journal-arrow,.icon-button,.tabs button,.collection-copy .tabs button{transition:color var(--motion-feedback) ease,border-color var(--motion-feedback) ease}
+.icon-button svg{transition:transform 300ms var(--motion-ease)}
+.desktop-nav a::after,.tabs button::after{transition:transform 360ms var(--motion-ease)}
+.phone,.footer-phone{transition:color var(--motion-feedback) ease,text-decoration-color var(--motion-feedback) ease;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:7px;text-decoration-thickness:1px}
+.model-image{overflow:hidden}
+#search-results a{transition:color var(--motion-feedback) ease,border-color var(--motion-feedback) ease}
+.choice-grid label{transition:background-color 280ms ease,border-color 280ms ease}
+input,select,textarea{transition:border-color var(--motion-feedback) ease,background-color var(--motion-feedback) ease}
+.preview-play{transition:color var(--motion-feedback) ease,border-color var(--motion-feedback) ease,transform 360ms var(--motion-ease)}
+.brand{transition:opacity 300ms ease}
+.desktop-nav a{transition:color var(--motion-feedback) ease}
+.header .phone,.footer .footer-phone{transition:color var(--motion-feedback) ease,text-decoration-color var(--motion-feedback) ease}
+#search-results a .ui-icon,.more-categories a .ui-icon,.footer-nav a .ui-icon,.footer-bottom a .ui-icon{transition:transform 340ms var(--motion-ease)}
+.additional-choices summary,.mobile-menu a,#manual-copy summary{transition:color var(--motion-feedback) ease}
+.collection-feedback{font-size:13px;font-weight:200;line-height:1.4;margin-top:16px;color:var(--muted)}
+.collection-feedback:has(#collection-status:empty):has(#collection-retry[hidden]){display:none}
+.collection-feedback #collection-retry{font-size:14px;margin-top:6px;padding-left:0;background:transparent;border:0}
+.collection-image>img{transition:none}
+@media(hover:hover) and (pointer:fine){
+ :is(.button,.round-button):not(:disabled):hover{background:#fff;color:#151515;border-color:#fff}
+ :is(.button,.round-button):not(:disabled):hover .ui-icon{transform:translate(3px,-3px)}
+ :is(.text-link,.footer-nav a,.footer-bottom a,.more-categories a,.recommendation-model):hover .ui-icon,.category:hover .ui-icon,.journal-grid>a:hover .journal-arrow .ui-icon,.project:hover .project-open .ui-icon{transform:translate(2px,-2px)}
+ .phone:hover,.footer-phone:hover{text-decoration-color:var(--accent);color:var(--accent)}
+ #search-results a:hover{color:var(--accent);border-color:var(--accent)}
+ #search-results a:hover .ui-icon{transform:translate(2px,-2px)}
+ .model-image:hover img{transform:scale(1.025)}
+ .journal-grid>a:hover .preview-play{transform:scale(1.04);border-color:var(--accent);color:var(--accent)}
+ .additional-choices summary:hover,#manual-copy summary:hover{color:var(--accent)}
+ .choice-grid label:hover{border-color:var(--accent)}
+ .icon-button:hover svg{transform:translateY(-1px)}
+}
+:is(.button,.round-button,.icon-button):not(:disabled):active{transform:scale(.975)}
+.tabs button:active{transform:none}
+.kit-round-button:focus-visible{background:#fff;color:#151515;border-color:#fff;outline:2px solid var(--accent);outline-offset:5px}
+@media(min-width:901px) and (max-width:1100px){
+ .showroom.overlap-feature .showroom-intro{padding:36px}
+ .showroom.overlap-feature .showroom-intro h2{font-size:30px}
+ .project-cta.overlap-feature .project-cta-copy{grid-column:1/9;gap:24px;padding-right:32px}
+ .kit-round-button{width:72px;height:72px;min-height:72px;flex-basis:72px}
+}
+@media(max-width:900px){
+ .showroom.overlap-feature .showroom-visual{grid-column:1;grid-row:1;width:100%;max-width:none;aspect-ratio:1;height:auto}
+ .showroom.overlap-feature .showroom-intro{grid-column:1;grid-row:2;margin:-44px 0 0 20px;padding:36px}
+ .showroom.overlap-feature .showroom-intro h2{font-size:clamp(28px,4.7vw,36px)}
+ .project-cta.overlap-feature .project-cta-copy{grid-column:1;grid-row:2;display:flex;gap:28px;margin:-36px 20px 0 0;padding:32px 28px 10px 0}
+ .kit-round-button{width:72px;height:72px;min-height:72px;flex-basis:72px}
+}
+@media(min-width:761px) and (max-width:1000px){
+ .editorial-journal{grid-template-columns:1fr 1fr;gap:38px 28px}
+ .editorial-journal>a:first-child{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 28px;align-items:start}
+ .editorial-journal>a:first-child .journal-preview{grid-column:1;grid-row:1/4;margin-bottom:0}
+ .journal .editorial-journal>a:first-child h3{grid-column:2;grid-row:1;margin:0;font-size:28px}
+ .editorial-journal>a:first-child p{grid-column:2;grid-row:2;margin:0}
+ .editorial-journal>a:first-child .journal-arrow{grid-column:2;grid-row:3;justify-self:start;margin:0}
+}
+@media(max-width:760px){
+ .editorial-journal{grid-template-columns:1fr;gap:42px}
+ .journal .editorial-journal>a:first-child h3{font-size:32px}.journal .editorial-journal h3{font-size:29px}
+ .showroom.overlap-feature .showroom-intro{margin-left:0;padding:30px 24px}
+ .showroom.overlap-feature .showroom-intro h2{font-size:clamp(26px,6.9vw,34px)}
+ .showroom.overlap-feature .showroom-intro>p{margin:24px 0}
+ .project-cta.overlap-feature .project-cta-copy{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:22px 20px;margin-right:0;padding:28px 0 8px}
+ .kit-copy-text{display:contents}.kit-copy-text h2{grid-column:1;grid-row:1}.kit-copy-text .cta-description{grid-column:1/-1;grid-row:2;margin:0}
+ .kit-round-button{grid-column:2;grid-row:1;width:64px;height:64px;min-height:64px;align-self:center}
+ .project-cta.overlap-feature h2{font-size:clamp(26px,7vw,34px)}
+}
+/* The overlap is tied to the actual square image edge, not a growing page column. */
+@media(min-width:901px){
+ .showroom.section.overlap-feature{--showroom-overlap:clamp(72px,7vw,100px);width:min(1340px,calc(100% - 2 * var(--space)));margin-inline:auto;padding-inline:0;grid-template-columns:minmax(0,min(54%,720px)) minmax(0,1fr)}
+ .showroom.overlap-feature .showroom-visual{grid-column:1;grid-row:1;width:100%;max-width:720px;justify-self:start}
+ .showroom.overlap-feature .showroom-intro{grid-column:2;grid-row:1;width:calc(100% + var(--showroom-overlap));max-width:860px;margin-left:calc(-1 * var(--showroom-overlap));justify-self:start}
+ .project-cta.overlap-feature .project-cta-copy{width:min(100%,760px);justify-self:start}
+}
+
+/* Footer shares the page's outer frame and a single twelve-column alignment. */
+.footer{padding:56px var(--space) 24px}
+.footer-main{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:28px;align-items:start;padding-bottom:36px}
+.footer-main>.brand{grid-column:1/4;grid-row:1;justify-self:start;width:max-content;max-width:100%;margin:0}
+.footer-main>.footer-contact{grid-column:4/6;grid-row:1;margin:0}
+.footer-main>.footer-nav{grid-column:6/10;grid-row:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;row-gap:0;margin:0}
+.footer-nav a{min-height:44px;padding:0;line-height:1.4;font-size:14px}
+.footer-nav a:nth-child(1){grid-column:1;grid-row:1}.footer-nav a:nth-child(2){grid-column:1;grid-row:2}
+.footer-nav a:nth-child(3){grid-column:2;grid-row:1}.footer-nav a:nth-child(4){grid-column:2;grid-row:2}.footer-nav a:nth-child(5){grid-column:2;grid-row:3}
+.footer-main>.text-link{grid-column:10/13;grid-row:1;justify-self:start;align-self:start;margin:0;font-size:14px;min-height:44px}
+.footer-main .eyebrow{margin:0 0 16px;line-height:1.4}
+.footer .footer-phone{display:inline-flex;align-items:center;min-height:32px;font-size:16px;line-height:1.4}
+.footer-main .footer-contact p{margin-top:8px;font-size:13px;line-height:1.4}
+.footer-bottom{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));align-items:center;column-gap:28px;row-gap:8px;padding-top:20px;font-size:12px;line-height:1.5}
+.footer-bottom>span{grid-column:1/6}.footer-bottom>a:nth-child(2){grid-column:6/11}.footer-bottom>a:last-child{grid-column:11/13;justify-self:end}
+.footer-bottom>a{margin-left:0;min-height:44px}
+@media(min-width:761px) and (max-width:1100px){
+ .footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+ .footer-main>.brand{grid-column:1;grid-row:1}.footer-main>.footer-contact{grid-column:2;grid-row:1}
+ .footer-main>.footer-nav{grid-column:1;grid-row:2;column-gap:20px}.footer-main>.text-link{grid-column:2;grid-row:2}
+ .footer-nav a{font-size:13px;gap:8px}
+ .footer-bottom{grid-template-columns:1fr auto;column-gap:24px}.footer-bottom>span{grid-column:1;grid-row:1}.footer-bottom>a:nth-child(2){grid-column:1;grid-row:2}.footer-bottom>a:last-child{grid-column:2;grid-row:1/3}
+}
+@media(max-width:760px){
+ .footer{padding:40px 24px 24px}.footer-main{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px;padding-bottom:28px}
+ .footer-main>.brand{grid-column:1;grid-row:1}.footer-main>.footer-contact{grid-column:2;grid-row:1}
+ .footer-main>.footer-nav{grid-column:1/-1;grid-row:2;column-gap:24px}.footer-main>.text-link{grid-column:1/-1;grid-row:3}
+ .footer .footer-phone{font-size:14px}.footer-main .eyebrow{font-size:9px;letter-spacing:1.3px;margin-bottom:12px}.footer-main .footer-contact p{font-size:12px}
+ .footer-nav a{font-size:13px;gap:8px}.footer-bottom{grid-template-columns:1fr;gap:4px;font-size:11px}
+ .footer-bottom>span,.footer-bottom>a:nth-child(2),.footer-bottom>a:last-child{grid-column:1;grid-row:auto;justify-self:start;margin:0}
+}
+@media(max-width:380px){
+ .footer-main{grid-template-columns:minmax(0,1fr);gap:28px}
+ .footer-main>.brand{grid-column:1;grid-row:1}.footer-main>.footer-contact{grid-column:1;grid-row:2}.footer-main>.footer-nav{grid-column:1;grid-row:3}.footer-main>.text-link{grid-column:1;grid-row:4}
+ .footer-main>.footer-nav{grid-template-columns:1fr;gap:0}.footer-nav a:nth-child(n){grid-column:1;grid-row:auto}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation:none!important;transition:none!important}
+ .category:hover img,.project:hover img,.showroom-visual:hover img,.journal-grid>a:hover .journal-preview img,.model-image:hover img,.journal-grid>a:hover .preview-play{transform:none!important}
+ :is(.button,.round-button,.text-link,.icon-button,.category,.project,.more-categories a,.journal-grid>a,.footer-nav a,.footer-bottom a,.recommendation-model):hover .ui-icon,.icon-button:hover svg{transform:none!important}
+ :is(.button,.round-button,.icon-button):active{transform:none!important}
+}
+
+/* Selection stages: an editorial 2x2 composition, with quiet oversized numerals. */
+.selection-guide{grid-template-columns:minmax(250px,.8fr) minmax(0,1.6fr);gap:clamp(60px,7vw,136px);align-items:start}
+.selection-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px 56px;padding-top:8px}
+.selection-steps li,.selection-steps li:first-child{position:relative;display:block;padding:48px 0 0 36px;border:0;min-width:0}
+.selection-steps li>span{position:absolute;top:-18px;left:0;padding:0;font-family:var(--font-display);font-size:112px;font-weight:100;line-height:1;color:var(--accent);letter-spacing:-.04em;pointer-events:none}
+.selection-steps li>div{position:relative}
+.selection-steps h3{font-size:clamp(22px,1.65vw,28px);line-height:1.2;max-width:22ch}
+.selection-steps p{font-size:16px;line-height:1.5;margin-top:16px;max-width:35ch}
+.selection-steps .text-link{font-size:14px;margin-top:16px}
+/* The architectural photo spans the complete section frame behind the floating copy. */
+.project-cta.overlap-feature{position:relative;min-height:clamp(480px,36vw,620px);padding:64px var(--space);grid-template-columns:repeat(12,minmax(0,1fr))}
+.project-cta.overlap-feature .kit-visual{position:absolute;inset:0;grid-column:auto;grid-row:auto;height:100%;width:100%;z-index:0}
+.project-cta.overlap-feature .kit-visual img{object-position:55% 50%}
+.project-cta.overlap-feature .project-cta-copy{grid-column:1/8;grid-row:1;width:min(100%,760px);margin:0;padding:48px;align-self:center}
+@media(max-width:1100px){
+ .selection-guide{grid-template-columns:minmax(220px,.75fr) minmax(0,1.4fr);gap:48px}
+ .selection-steps{gap:48px 28px}.selection-steps li,.selection-steps li:first-child{padding-left:20px}.selection-steps h3{font-size:22px}
+ .project-cta.overlap-feature .project-cta-copy{grid-column:1/10;padding:36px}
+}
+@media(max-width:900px){
+ .selection-guide{grid-template-columns:1fr;gap:56px}.selection-lead>p:not(.eyebrow){max-width:48ch}
+ .project-cta.overlap-feature{min-height:500px;padding:48px 24px;grid-template-columns:minmax(0,1fr)}
+ .project-cta.overlap-feature .project-cta-copy{grid-column:1;grid-row:1;max-width:620px;padding:32px;margin:0}
+}
+@media(max-width:600px){
+ .selection-steps{grid-template-columns:1fr;gap:38px}.selection-steps li,.selection-steps li:first-child{padding:38px 0 0 28px}.selection-steps li>span{font-size:96px;top:-12px}.selection-steps h3{font-size:24px;max-width:24ch}.selection-steps p{max-width:38ch}
+ .project-cta.overlap-feature{min-height:540px;padding:48px 24px;align-items:end}
+ .project-cta.overlap-feature .project-cta-copy{padding:28px 24px;gap:24px 16px}
+ .project-cta.overlap-feature h2{font-size:26px}.kit-round-button{width:56px;height:56px;min-height:56px}
+}
+
+/* Accent numerals sit behind the copy, with restrained transparency. */
+.selection-steps li>span{color:rgb(243 154 67 / .32);z-index:0}
+.selection-steps li>div{z-index:1}
+
+/* Scroll motion stays inside photographic frames and never moves the layout. */
+.hero-image,.collection-image,.image-wrap,.journal-preview,.showroom-visual,.project-photo,.kit-visual{overflow:hidden}
+.hero-image>img{transition:none;transform-origin:center center}
+.category h3,.model-copy h3{transition:color 260ms ease}
+@media(hover:hover) and (pointer:fine){
+ .category:hover h3,.model-card:has(a:hover) h3{color:var(--accent)}
+}
+@media(prefers-reduced-motion:reduce){.hero-image>img{transform:none!important}}
+
+/* Early progressive enhancement gate: fails open if the module is unavailable. */
+@media(prefers-reduced-motion:no-preference){
+ .motion-boot :is(.section-heading,.category,.model-card,.collection-image,.collection-copy,.selection-lead,.selection-steps li,.showroom-visual,.showroom-intro,.project-photo,.project-caption,.journal-preview,.journal-grid>a>h3,.journal-grid>a>p,.journal-arrow,.kit-visual,.project-cta-copy,.hero-copy,.hero-image){opacity:0}
+}
