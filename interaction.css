@@ -201,3 +201,29 @@ input,select,textarea{transition:border-color var(--motion-feedback) ease,backgr
 @media(prefers-reduced-motion:no-preference){
  .motion-boot :is(.section-heading,.category,.model-card,.collection-image,.collection-copy,.selection-lead,.selection-steps li,.showroom-visual,.showroom-intro,.project-photo,.project-caption,.journal-preview,.journal-grid>a>h3,.journal-grid>a>p,.journal-arrow,.kit-visual,.project-cta-copy,.hero-copy,.hero-image){opacity:0}
 }
+
+/* Mobile Safari needs a definite dialog height for its nested flex scroller.
+   max-height alone can collapse the form/result to zero below the header. */
+@media(max-width:900px){
+ #selection[open]{box-sizing:border-box;height:calc(100vh - 24px);height:calc(100dvh - 24px);max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);width:calc(100% - 24px);margin:auto;padding:0;overflow:hidden}
+ #selection>.selection-header{flex:0 0 auto;padding:24px 24px 18px}
+ #selection .selection-header h2{font-size:28px;line-height:1.15;margin:0 34px 12px 0}
+ #selection .selection-header p{font-size:14px;line-height:1.4;margin:0}
+ #selection>#selection-form:not([hidden]),#selection>#selection-result:not([hidden]){display:flex;flex-direction:column;flex:1 1 0%;min-height:0;min-width:0;overflow:hidden}
+ #selection .selection-scroll{flex:1 1 0%;min-height:0;min-width:0;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding:22px 24px}
+ #selection .selection-bar,#selection .result-bar{flex:0 0 auto;padding:14px 24px 18px;padding-bottom:max(18px,env(safe-area-inset-bottom));margin:0}
+ #selection .preference-grid select{font-size:16px;max-width:100%}
+}
+@media(max-width:900px) and (max-height:560px){
+ #selection>.selection-header{padding:16px 20px 12px}
+ #selection .selection-header h2{font-size:24px;margin-bottom:0}
+ #selection .selection-header p{display:none}
+ #selection .selection-scroll{padding:16px 20px}
+ #selection .selection-bar{flex-direction:row;align-items:center;gap:16px;padding:10px 20px}
+ #selection .selection-bar .button{width:auto;min-width:0;min-height:44px;padding:10px 18px}
+ #selection .result-bar{padding:10px 20px}
+ #selection .result-bar .handoff{display:flex;flex-direction:row;gap:10px}
+ #selection .result-bar .button{min-height:44px;padding:10px 14px}
+ #selection .result-bar #copy-status{font-size:12px;line-height:1.35;margin-top:6px}
+ #selection .result-bar #edit-selection{min-height:36px;margin:0}
+}
