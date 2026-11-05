@@ -6,10 +6,27 @@ import {buildRecommendations} from './recommend.js?v=4';
 function makeArrow(){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.classList.add('ui-icon');const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d','M6 18 18 6M6 6h12v12');svg.append(path);return svg}
 const menuButton=document.querySelector('.menu-toggle');
 const menu=document.querySelector('#mobile-menu');
-menuButton.addEventListener('click',event=>{const open=menuButton.getAttribute('aria-expanded')!=='true';menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');menu.hidden=!open;if(open&&event.detail&&!reducedMotion.matches)trackAnimation(menu,[{opacity:.8,transform:'translateY(-6px)'},{opacity:1,transform:'translateY(0)'}],{duration:280})});
-menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Открыть меню')}));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){menu.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Открыть меню');menuButton.focus()}});
-document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>{const dialog=document.getElementById(button.dataset.open);dialog.showModal();if(dialog.id==='search')document.querySelector('#search-input').focus()}));
+let menuOpen=false,menuMotion=null,menuRevision=0;
+function setMobileMenu(open,animate=true){
+ const revision=++menuRevision;
+ const from=menu.hidden?{opacity:0,transform:'translateY(-12px)'}:{opacity:getComputedStyle(menu).opacity,transform:getComputedStyle(menu).transform};
+ menuMotion?.cancel();menuMotion=null;menuOpen=open;
+ menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');
+ menuButton.toggleAttribute('data-instant',!animate||reducedMotion.matches);menu.inert=!open;
+ if(!animate||reducedMotion.matches||!Element.prototype.animate){menu.hidden=!open;return}
+ if(open)menu.hidden=false;
+ if(menu.hidden)return;
+ const animation=menu.animate([from,open?{opacity:1,transform:'translateY(0)'}:{opacity:0,transform:'translateY(-12px)'}],{duration:open?420:300,easing:'cubic-bezier(.22,.61,.36,1)',fill:'both'});
+ menuMotion=animation;
+ animation.finished.then(()=>{if(revision!==menuRevision)return;menu.hidden=!open;menuMotion=null;animation.cancel()}).catch(()=>{});
+}
+menuButton.addEventListener('click',event=>setMobileMenu(!menuOpen,event.detail>0));
+menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',event=>setMobileMenu(false,event.detail>0)));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!menu.hidden){setMobileMenu(false,false);menuButton.focus()}});
+mobileCarouselQuery.addEventListener('change',event=>{if(!event.matches)setMobileMenu(false,false)});
+reducedMotion.addEventListener('change',event=>{if(event.matches)setMobileMenu(menuOpen,false)});
+document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>{if(menuOpen)setMobileMenu(false,false);const dialog=document.getElementById(button.dataset.open);dialog.showModal();if(dialog.id==='search')document.querySelector('#search-input').focus()}));
+
 document.querySelectorAll('dialog').forEach(dialog=>{dialog.querySelector('.close-dialog').addEventListener('click',event=>closeDialog(dialog,event.detail>0));dialog.addEventListener('click',e=>{if(e.target===dialog){const rect=dialog.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDialog(dialog,e.detail>0)}})});
 const catalogEntries=[...document.querySelectorAll('.category')].map(a=>({name:a.querySelector('h3').textContent.trim(),url:a.href}));
 catalogEntries.push(...[...document.querySelectorAll('.more-categories a')].map(a=>({name:a.textContent.trim(),url:a.href})),...productData.products.map(p=>({name:p.name+' — '+p.category,url:p.url,keywords:p.description})));

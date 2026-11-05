@@ -5420,3 +5420,19 @@ textarea {
 @media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
   .motion-boot [data-mobile-carousel] { opacity: 0; }
 }
+
+/* Reversible mobile navigation strokes. */
+.menu-toggle .burger-line {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  transition: transform 420ms cubic-bezier(.22,.61,.36,1);
+}
+.menu-toggle .burger-line:first-child { transform: translateY(-4.5px) rotate(0); }
+.menu-toggle .burger-line:last-child { transform: translateY(4.5px) rotate(0); }
+.menu-toggle[aria-expanded="true"] .burger-line:first-child { transform: translateY(0) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .burger-line:last-child { transform: translateY(0) rotate(-45deg); }
+.menu-toggle[data-instant] .burger-line { transition: none; }
+body:has(.mobile-menu:not([hidden])) .header::before { opacity: 1; }
+@media (max-width: 760px) {
+  .service-strip { display: none; }
+}
